@@ -1,0 +1,1 @@
+<h2 class="centerText emptyUserMessage">No Photos Yet.</h2>

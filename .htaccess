@@ -1,0 +1,50 @@
+php_value upload_max_filesize 120M
+php_value post_max_size 120M
+php_value max_input_time 300
+php_value max_execution_time 300
+
+Options -Indexes
+DirectoryIndex /public/index.php?url
+RewriteEngine On
+
+ErrorDocument 403 /public/index.php?url=
+
+RewriteBase /
+
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.+)$ /public/index.php?url=$1 [QSA,L]
+
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+#gzip compression
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript
+</IfModule>
+
+#cache purpose
+<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|jpg|jpeg|png|gif)$">
+ExpiresDefault A604800
+Header append Cache-Control "public"
+</FilesMatch>
+
+
+# BEGIN Expires
+<ifModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 seconds"
+ExpiresByType text/html "access plus 1 seconds"
+ExpiresByType image/gif "access plus 2592000 seconds"
+ExpiresByType image/jpeg "access plus 2592000 seconds"
+ExpiresByType image/png "access plus 2592000 seconds"
+ExpiresByType text/css "access plus 604800 seconds"
+ExpiresByType text/javascript "access plus 216000 seconds"
+ExpiresByType application/x-javascript "access plus 216000 seconds"
+</ifModule>
+# END Expires
