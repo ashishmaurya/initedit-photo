@@ -1,3 +1,5 @@
 /robots.txt
 /sitemap.xml
 /public/output.jpg
+/app/website/tools/Database.php
+.gitignore
